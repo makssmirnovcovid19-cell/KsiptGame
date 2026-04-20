@@ -1,0 +1,731 @@
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>КСИПТ · Формула Вселенной · Достижения</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0a0f1c;
+            font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+            color: #eef4fa;
+            line-height: 1.5;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .glass {
+            max-width: 1400px;
+            width: 100%;
+            background: rgba(12, 20, 30, 0.75);
+            backdrop-filter: blur(14px);
+            border-radius: 48px;
+            padding: 35px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(100, 180, 250, 0.25);
+        }
+
+        h1 {
+            font-size: 3.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffffff, #9bc5ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-align: center;
+        }
+
+        .college { text-align: center; margin: 10px 0 20px; }
+        .college span {
+            background: rgba(30, 70, 110, 0.6);
+            border: 1px solid #3c7a9e;
+            padding: 8px 30px;
+            border-radius: 60px;
+            font-size: 1.1rem;
+        }
+
+        .authorship {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 16px;
+            border-bottom: 2px dashed #2a5a78;
+            padding-bottom: 20px;
+            margin-bottom: 25px;
+        }
+        .author, .group {
+            background: #1f4763;
+            padding: 6px 22px;
+            border-radius: 40px;
+        }
+
+        /* Сюжетная карточка */
+        .story-card {
+            background: linear-gradient(135deg, #102b3b, #08212f);
+            border-radius: 40px;
+            padding: 24px 30px;
+            margin-bottom: 35px;
+            border-left: 6px solid #ffcd7e;
+        }
+        .story-card h2 { color: #ffdfaa; margin-bottom: 12px; }
+
+        /* Статистика */
+        .stats {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 18px;
+            margin: 20px 0;
+        }
+        .stat {
+            background: #0a2538;
+            border-radius: 38px;
+            padding: 12px 28px;
+            text-align: center;
+            border: 1px solid #347d9c;
+        }
+        .stat-num { font-size: 2rem; font-weight: 600; color: #fad15e; }
+
+        /* Чипсы */
+        .chips {
+            display: flex;
+            justify-content: center;
+            gap: 18px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        .chip {
+            background: #1e3f57;
+            border-radius: 60px;
+            padding: 8px 28px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border: 1px solid #4896c2;
+        }
+
+        /* Прогресс */
+        .progress-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        .bar-bg {
+            height: 22px;
+            background: #0a1f2e;
+            border-radius: 30px;
+            border: 1px solid #306f8f;
+            overflow: hidden;
+        }
+        .bar-fill {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, #45b7e0, #66d9b3);
+            transition: width 0.35s;
+        }
+
+        /* Достижения */
+        .achievements-panel {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 30px;
+            padding: 20px;
+            margin: 25px 0;
+            border: 1px solid #ffcd7e;
+        }
+        .achievements-panel h3 {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 18px;
+            color: #ffdfaa;
+        }
+        .achievements-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .achievement-badge {
+            background: #1e3f57;
+            border-radius: 60px;
+            padding: 8px 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9rem;
+            border: 1px solid #5f9bc2;
+            opacity: 0.5;
+            transition: 0.2s;
+        }
+        .achievement-badge.unlocked {
+            opacity: 1;
+            background: linear-gradient(135deg, #2a6b4e, #1d5a42);
+            border-color: #ffd966;
+            box-shadow: 0 0 15px #ffd966;
+        }
+        .current-rank {
+            background: #0f2d3f;
+            border-radius: 40px;
+            padding: 18px 25px;
+            text-align: center;
+            margin-top: 15px;
+            border: 2px solid #ffcd7e;
+        }
+        .rank-title {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #ffdfaa;
+        }
+
+        /* Карта */
+        .map {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 18px;
+            margin: 35px 0;
+        }
+        @media (max-width: 750px) {
+            .map { grid-template-columns: repeat(2, 1fr); }
+        }
+        .tile {
+            background: #173e55;
+            border-radius: 28px;
+            padding: 20px 8px;
+            text-align: center;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: 0.2s;
+        }
+        .tile:not(.locked):hover {
+            transform: translateY(-5px);
+            border-color: #ffb347;
+        }
+        .tile.locked { opacity: 0.5; filter: grayscale(0.6); cursor: default; }
+        .tile.unlocked {
+            background: #1f604b;
+            border-color: #47d494;
+            box-shadow: 0 0 20px #2fc48a;
+        }
+        .flag { font-size: 2.8rem; }
+        .country-name { font-weight: 600; }
+
+        /* Две колонки */
+        .two-cols {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 30px 0;
+        }
+        @media (max-width: 750px) {
+            .two-cols { grid-template-columns: 1fr; }
+        }
+        .block {
+            background: #0f2d3f;
+            border-radius: 40px;
+            padding: 26px;
+            border: 1px solid #31779b;
+        }
+        .block h3 {
+            font-size: 1.7rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 2px solid #326e8b;
+            padding-bottom: 12px;
+        }
+        .question {
+            background: #123f58;
+            border-radius: 28px;
+            padding: 20px;
+            margin-bottom: 18px;
+        }
+        .q-text { font-weight: 500; margin-bottom: 14px; }
+        .opt-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        .opt {
+            background: #1e5472;
+            border-radius: 40px;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            border: 1px solid #4d8eb3;
+        }
+        .opt:hover { background: #2c6c93; }
+        .opt.correct { background: #257a4a; border-color: #8eedb0; }
+        .opt.incorrect { background: #9c3d3d; border-color: #ffa2a2; }
+        .opt.disabled { pointer-events: none; opacity: 0.6; }
+        .fb {
+            margin-top: 14px;
+            padding: 12px;
+            border-radius: 28px;
+            display: none;
+        }
+        .fb.show { display: block; }
+        .fb.correct { background: #1e6146; }
+        .fb.incorrect { background: #782c2c; }
+
+        /* Модалка */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(6px);
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        .modal.active { display: flex; }
+        .modal-card {
+            background: #1e4058;
+            max-width: 520px;
+            width: 90%;
+            border-radius: 70px;
+            padding: 40px;
+            border: 3px solid #51a2cf;
+        }
+        .close {
+            float: right;
+            font-size: 2.6rem;
+            cursor: pointer;
+            color: #ffdfa5;
+        }
+        .modal-card h2 { font-size: 2rem; text-align: center; }
+        .example {
+            background: #0f2c3c;
+            border-radius: 50px;
+            padding: 20px;
+            font-size: 1.3rem;
+            text-align: center;
+            margin: 20px 0;
+        }
+        .modal-input {
+            width: 100%;
+            padding: 16px;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            text-align: center;
+        }
+        .modal-btn {
+            width: 100%;
+            background: #2e9b6b;
+            border: none;
+            padding: 16px;
+            border-radius: 50px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-top: 15px;
+            cursor: pointer;
+        }
+        .reset-btn {
+            background: #b8412e;
+            display: block;
+            margin: 25px auto 0;
+            border: none;
+            padding: 14px 50px;
+            border-radius: 60px;
+            font-size: 1.4rem;
+            font-weight: bold;
+            cursor: pointer;
+            border: 2px solid #ffc576;
+        }
+        footer { text-align: center; margin-top: 30px; color: #8eb5cf; }
+    </style>
+</head>
+<body>
+<div class="glass">
+    <h1>⚡ ФОРМУЛА ВСЕЛЕННОЙ ⚡</h1>
+    <div class="college"><span>⚓ КСИПТ · Колледж судостроения, информационных и прикладных технологий</span></div>
+    <div class="authorship">
+        <span class="author">Смирнов Максим Игоревич</span>
+        <span class="author">Яковлев Артем Алексеевич</span>
+        <span class="group">ОН1-25-2</span>
+        <span class="year">2026</span>
+    </div>
+
+    <div class="story-card">
+        <h2>📖 История квеста «ФОРМУЛА ВСЕЛЕННОЙ»</h2>
+        <p>Давным-давно человечество открыло древнюю книгу «Код Вселенной». Но однажды страницу похитил злодей Арго. Чтобы вернуть её, команда из Курсанта, Математика и IT-мастера отправляется в экспедицию через 10 уникальных испытаний по всему миру. Реши все уравнения — восстанови порядок и получай звания!</p>
+    </div>
+
+    <div class="stats">
+        <div class="stat"><div class="stat-num" id="statCountries">0</div><div>стран</div></div>
+        <div class="stat"><div class="stat-num" id="statHistory">0</div><div>историй</div></div>
+        <div class="stat"><div class="stat-num" id="statMath">0</div><div>правил</div></div>
+        <div class="stat"><div class="stat-num">🧠</div><div>КСИПТ</div></div>
+    </div>
+
+    <div class="chips">
+        <div class="chip">🧠 КУРСАНТ</div>
+        <div class="chip">📐 МАТЕМАТИК</div>
+        <div class="chip">💻 IT-МАСТЕР</div>
+    </div>
+
+    <!-- Панель достижений -->
+    <div class="achievements-panel">
+        <h3>🏆 ДОСТИЖЕНИЯ И ЗВАНИЯ 🏆</h3>
+        <div class="achievements-grid" id="achievementsList">
+            <!-- будут добавлены динамически -->
+        </div>
+        <div class="current-rank">
+            <div style="font-size: 0.9rem; opacity: 0.8;">Текущее звание</div>
+            <div class="rank-title" id="currentRankTitle">🌱 НОВИЧОК</div>
+        </div>
+    </div>
+
+    <div class="progress-row">
+        <span>🔓 ОТКРЫТО СТРАН</span>
+        <span id="progressCount">0 / 10</span>
+    </div>
+    <div class="bar-bg"><div class="bar-fill" id="progressFill"></div></div>
+
+    <div id="mapContainer" class="map"></div>
+
+    <div class="two-cols">
+        <div class="block">
+            <h3>🌊 МОРСКАЯ ИСТОРИЯ</h3>
+            <div id="historyContainer"></div>
+        </div>
+        <div class="block">
+            <h3>🤖 IT-МАТЕМАТИКА</h3>
+            <div id="mathContainer"></div>
+        </div>
+    </div>
+
+    <button class="reset-btn" id="resetBtn">⚡ НОВОЕ ПУТЕШЕСТВИЕ ⚡</button>
+    <footer>КСИПТ 2026 · «Формула Вселенной» — получай достижения, становись легендой!</footer>
+</div>
+
+<div class="modal" id="modal">
+    <div class="modal-card">
+        <span class="close" id="closeModal">&times;</span>
+        <h2 id="modalCountry">Россия</h2>
+        <div class="example" id="modalExample">x² - 5x + 6 = 0</div>
+        <input class="modal-input" id="modalAnswer" placeholder="твой ответ">
+        <button class="modal-btn" id="modalCheck">⚡ ПРОВЕРИТЬ ⚡</button>
+    </div>
+</div>
+
+<script>
+    (function() {
+        // ----- ДАННЫЕ СТРАН -----
+        const countries = [
+            { name: "РОССИЯ 🇷🇺", flag: "🇷🇺", example: "x² - 5x + 6 = 0 (корни через запятую, по возрастанию)", answer: "2,3" },
+            { name: "США 🇺🇸", flag: "🇺🇸", example: "f(x) = 3x² + 2x - 1 (производная)", answer: "6x+2" },
+            { name: "КИТАЙ 🇨🇳", flag: "🇨🇳", example: "log₂(8) + log₃(9) = ?", answer: "5" },
+            { name: "ФРАНЦИЯ 🇫🇷", flag: "🇫🇷", example: "{2x + y = 7; x - y = 2} (введи x,y)", answer: "3,1" },
+            { name: "ЯПОНИЯ 🇯🇵", flag: "🇯🇵", example: "sin30° + cos60° = ?", answer: "1" },
+            { name: "БРАЗИЛИЯ 🇧🇷", flag: "🇧🇷", example: "(x²-9)/(x-3) = ?", answer: "x+3" },
+            { name: "ИТАЛИЯ 🇮🇹", flag: "🇮🇹", example: "2x - 4 > 6 (решение неравенства)", answer: "x>5" },
+            { name: "ИНДИЯ 🇮🇳", flag: "🇮🇳", example: "Дискриминант x² + 4x + 4 = 0", answer: "0" },
+            { name: "АВСТРАЛИЯ 🇦🇺", flag: "🇦🇺", example: "√144 + √169 = ?", answer: "25" },
+            { name: "ГЕРМАНИЯ 🇩🇪", flag: "🇩🇪", example: "2x² - 8x + 6 = 0 (корни по возрастанию)", answer: "1,3" }
+        ];
+
+        // ----- ВОПРОСЫ ИСТОРИИ -----
+        const historyQ = [
+            { q: "Первый российский пароход?", opts: ["Елизавета","Пётр I","Св. Николай","Россия"], cor: "a", exp: "Пароход «Елизавета» — 1815 год." },
+            { q: "Язык для судостроения?", opts: ["Python","JavaScript","C++","Java"], cor: "c", exp: "C++ — основа для инженерных расчётов." },
+            { q: "Сколько океанов?", opts: ["3","4","5","6"], cor: "c", exp: "5 океанов." },
+            { q: "Наука о кораблях?", opts: ["Астрономия","Судостроение","Навтика","Океанология"], cor: "b", exp: "Судостроение — проектирование судов." }
+        ];
+
+        // ----- ВОПРОСЫ МАТЕМАТИКИ -----
+        const mathQ = [
+            { q: "Производная sin x?", opts: ["cos x","-cos x","tg x","ctg x"], cor: "a", exp: "sin'(x) = cos x" },
+            { q: "Система счисления в ПК?", opts: ["10-я","2-я","8-я","16-я"], cor: "b", exp: "Двоичная (0 и 1)" },
+            { q: "1 Кбайт = ?", opts: ["1000 б","1024 б","1048 б","1012 б"], cor: "b", exp: "1 Кбайт = 1024 байта" },
+            { q: "Площадь круга?", opts: ["2πR","πR²","πR³","πR²/2"], cor: "b", exp: "S = πR²" }
+        ];
+
+        // ----- СПИСОК ДОСТИЖЕНИЙ -----
+        const achievementsList = [
+            { id: "first_country", name: "ПЕРВЫЙ ШАГ", desc: "Открыть первую страну", icon: "🌍", condition: (s) => s.countriesUnlocked >= 1 },
+            { id: "five_countries", name: "ПУТЕШЕСТВЕННИК", desc: "Открыть 5 стран", icon: "🗺️", condition: (s) => s.countriesUnlocked >= 5 },
+            { id: "all_countries", name: "ВЛАСТЕЛИН МИРА", desc: "Открыть все 10 стран", icon: "👑", condition: (s) => s.countriesUnlocked >= 10 },
+            { id: "history_master", name: "ХРАНИТЕЛЬ ИСТОРИИ", desc: "Ответить на все исторические вопросы", icon: "📜", condition: (s) => s.historyCorrect >= 4 },
+            { id: "math_master", name: "IT-ГЕНИЙ", desc: "Ответить на все IT-вопросы", icon: "💻", condition: (s) => s.mathCorrect >= 4 },
+            { id: "half_math", name: "ЮНЫЙ МАТЕМАТИК", desc: "Ответить на 2 IT-вопроса", icon: "📐", condition: (s) => s.mathCorrect >= 2 },
+            { id: "half_history", name: "ЛЮБИТЕЛЬ ИСТОРИИ", desc: "Ответить на 2 исторических вопроса", icon: "🏛️", condition: (s) => s.historyCorrect >= 2 }
+        ];
+
+        // ----- ЗВАНИЯ (РАНГИ) -----
+        const ranks = [
+            { name: "🌱 НОВИЧОК", points: 0, icon: "🌱" },
+            { name: "📖 УЧЕНИК", points: 3, icon: "📖" },
+            { name: "⚓ КУРСАНТ", points: 6, icon: "⚓" },
+            { name: "🧮 МАТЕМАТИК", points: 10, icon: "🧮" },
+            { name: "💻 IT-МАСТЕР", points: 14, icon: "💻" },
+            { name: "🏆 ЛЕГЕНДА ВСЕЛЕННОЙ", points: 18, icon: "🏆" }
+        ];
+
+        // ----- СОСТОЯНИЕ -----
+        let unlocked = new Array(10).fill(false);
+        let historyCorrect = 0;
+        let mathCorrect = 0;
+        let historyAnswered = new Array(4).fill(false);
+        let mathAnswered = new Array(4).fill(false);
+        let currentIdx = 0;
+
+        // ----- ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ -----
+        function showMessage(text, isSuccess = true) {
+            let toast = document.createElement('div');
+            toast.innerText = text;
+            toast.style.position = 'fixed';
+            toast.style.bottom = '30px';
+            toast.style.left = '50%';
+            toast.style.transform = 'translateX(-50%)';
+            toast.style.background = isSuccess ? '#1d7648' : '#a13e2e';
+            toast.style.color = 'white';
+            toast.style.padding = '15px 40px';
+            toast.style.borderRadius = '60px';
+            toast.style.fontSize = '1.3rem';
+            toast.style.fontWeight = '600';
+            toast.style.zIndex = '3000';
+            toast.style.boxShadow = '0 10px 25px black';
+            toast.style.border = '2px solid #ffdfa5';
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 2500);
+        }
+
+        function getTotalPoints() {
+            let points = unlocked.filter(v => v).length;
+            points += historyCorrect;
+            points += mathCorrect;
+            return points;
+        }
+
+        function updateRank() {
+            let points = getTotalPoints();
+            let currentRank = ranks[0];
+            for (let i = ranks.length - 1; i >= 0; i--) {
+                if (points >= ranks[i].points) {
+                    currentRank = ranks[i];
+                    break;
+                }
+            }
+            document.getElementById('currentRankTitle').innerHTML = `${currentRank.icon} ${currentRank.name}`;
+            return currentRank;
+        }
+
+        function checkAndUnlockAchievements() {
+            const state = {
+                countriesUnlocked: unlocked.filter(v => v).length,
+                historyCorrect: historyCorrect,
+                mathCorrect: mathCorrect
+            };
+            
+            let newUnlocked = false;
+            achievementsList.forEach(ach => {
+                let badge = document.getElementById(`ach_${ach.id}`);
+                if (badge && !badge.classList.contains('unlocked') && ach.condition(state)) {
+                    badge.classList.add('unlocked');
+                    newUnlocked = true;
+                    showMessage(`🏅 ДОСТИЖЕНИЕ ПОЛУЧЕНО: ${ach.icon} ${ach.name}`, true);
+                }
+            });
+            
+            if (newUnlocked) {
+                updateRank();
+                let rank = updateRank();
+                if (rank.name !== document.getElementById('currentRankTitle').innerText) {
+                    showMessage(`✨ НОВОЕ ЗВАНИЕ: ${rank.icon} ${rank.name} ✨`, true);
+                }
+            }
+            updateRank();
+        }
+
+        function updateStats() {
+            document.getElementById('statCountries').innerText = unlocked.filter(v => v).length;
+            document.getElementById('statHistory').innerText = historyCorrect;
+            document.getElementById('statMath').innerText = mathCorrect;
+            checkAndUnlockAchievements();
+        }
+
+        function renderAchievements() {
+            const container = document.getElementById('achievementsList');
+            container.innerHTML = '';
+            achievementsList.forEach(ach => {
+                const badge = document.createElement('div');
+                badge.className = 'achievement-badge';
+                badge.id = `ach_${ach.id}`;
+                badge.innerHTML = `${ach.icon} ${ach.name}`;
+                container.appendChild(badge);
+            });
+        }
+
+        // ----- ОТРИСОВКА КАРТЫ -----
+        function updateProgress() {
+            let cnt = unlocked.filter(v => v).length;
+            document.getElementById('progressCount').innerText = cnt + ' / 10';
+            document.getElementById('progressFill').style.width = (cnt * 10) + '%';
+            if (cnt === 10) {
+                setTimeout(() => showMessage('🏆 ВСЕ СТРАНЫ ОТКРЫТЫ! ТЫ СПАС ВСЕЛЕННУЮ! 🏆', true), 200);
+            }
+            updateStats();
+        }
+
+        function renderMap() {
+            const mapDiv = document.getElementById('mapContainer');
+            mapDiv.innerHTML = '';
+            countries.forEach((c, i) => {
+                let tile = document.createElement('div');
+                tile.className = `tile ${unlocked[i] ? 'unlocked' : 'locked'}`;
+                if (!unlocked[i]) {
+                    tile.addEventListener('click', () => {
+                        currentIdx = i;
+                        document.getElementById('modalCountry').innerText = c.name;
+                        document.getElementById('modalExample').innerText = c.example;
+                        document.getElementById('modalAnswer').value = '';
+                        document.getElementById('modal').classList.add('active');
+                    });
+                }
+                tile.innerHTML = `
+                    <div class="flag">${c.flag}</div>
+                    <div class="country-name">${c.name}</div>
+                    <div class="status-text">${unlocked[i] ? '✅ ОТКРЫТА' : '🔒 ЗАКРЫТА'}</div>
+                `;
+                mapDiv.appendChild(tile);
+            });
+            updateProgress();
+        }
+
+        // ----- ВОПРОСЫ (ИСТОРИЯ + МАТЕМАТИКА) -----
+        function buildQuestionCard(q, idx, type, answeredArray, correctCountRef) {
+            let div = document.createElement('div');
+            div.className = 'question';
+            div.id = `${type}_${idx}`;
+            let letters = ['a','b','c','d'];
+            let optsHtml = '';
+            q.opts.forEach((opt, oi) => {
+                optsHtml += `<div class="opt" data-opt="${letters[oi]}" onclick="window.checkQA('${type}',${idx},'${letters[oi]}',this)">${opt}</div>`;
+            });
+            div.innerHTML = `<div class="q-text">${q.q}</div><div class="opt-grid">${optsHtml}</div><div class="fb" id="fb_${type}_${idx}"></div>`;
+            return div;
+        }
+
+        window.checkQA = function(type, qIdx, selected, el) {
+            let data = (type === 'history') ? historyQ[qIdx] : mathQ[qIdx];
+            let container = document.getElementById(`${type}_${qIdx}`);
+            let allOpts = container.querySelectorAll('.opt');
+            let fbDiv = document.getElementById(`fb_${type}_${qIdx}`);
+            
+            if (allOpts[0].classList.contains('disabled')) return;
+            
+            allOpts.forEach(opt => opt.classList.add('disabled'));
+            
+            let isCorrect = (selected === data.cor);
+            let wasAlreadyCorrect = (type === 'history' ? historyAnswered[qIdx] : mathAnswered[qIdx]);
+            
+            if (isCorrect) {
+                el.classList.add('correct');
+                fbDiv.className = 'fb show correct';
+                fbDiv.innerText = '✅ ' + data.exp;
+                if (!wasAlreadyCorrect) {
+                    if (type === 'history') {
+                        historyCorrect++;
+                        historyAnswered[qIdx] = true;
+                    } else {
+                        mathCorrect++;
+                        mathAnswered[qIdx] = true;
+                    }
+                    showMessage('🌟 Верно! +1 к знаниям!', true);
+                    updateStats();
+                    updateRank();
+                } else {
+                    showMessage('✅ Ты уже отвечал на этот вопрос правильно!', true);
+                }
+            } else {
+                el.classList.add('incorrect');
+                fbDiv.className = 'fb show incorrect';
+                fbDiv.innerText = '❌ Ошибка. ' + data.exp;
+                showMessage('❌ Неправильно, но теперь ты знаешь ответ!', false);
+                allOpts.forEach(opt => {
+                    if (opt.dataset.opt === data.cor) opt.classList.add('correct');
+                });
+            }
+        };
+
+        function renderAllQuestions() {
+            const historyDiv = document.getElementById('historyContainer');
+            const mathDiv = document.getElementById('mathContainer');
+            historyDiv.innerHTML = '';
+            mathDiv.innerHTML = '';
+            historyQ.forEach((q, i) => historyDiv.appendChild(buildQuestionCard(q, i, 'history', historyAnswered, historyCorrect)));
+            mathQ.forEach((q, i) => mathDiv.appendChild(buildQuestionCard(q, i, 'math', mathAnswered, mathCorrect)));
+        }
+
+        // ----- ПРОВЕРКА СТРАНЫ -----
+        function checkCountryAnswer() {
+            let userAns = document.getElementById('modalAnswer').value.trim().toLowerCase().replace(/\s+/g, '');
+            let correctAns = countries[currentIdx].answer.toLowerCase().replace(/\s+/g, '');
+            if (userAns === correctAns) {
+                if (!unlocked[currentIdx]) {
+                    unlocked[currentIdx] = true;
+                    renderMap();
+                    showMessage('🎉 МОЛОДЕЦ! ТАК ДЕРЖАТЬ! Страна открыта!', true);
+                    updateStats();
+                    updateRank();
+                } else {
+                    showMessage('Эта страна уже открыта!', false);
+                }
+                document.getElementById('modal').classList.remove('active');
+            } else {
+                showMessage('❌ Неверно, попробуй ещё раз!', false);
+            }
+        }
+
+        // ----- СБРОС -----
+        function resetFullGame() {
+            unlocked.fill(false);
+            historyCorrect = 0;
+            mathCorrect = 0;
+            historyAnswered.fill(false);
+            mathAnswered.fill(false);
+            
+            renderMap();
+            renderAllQuestions();
+            document.getElementById('modal').classList.remove('active');
+            
+            document.querySelectorAll('.opt').forEach(opt => {
+                opt.classList.remove('correct', 'incorrect', 'disabled');
+            });
+            document.querySelectorAll('.fb').forEach(fb => {
+                fb.className = 'fb';
+                fb.innerText = '';
+            });
+            
+            updateStats();
+            updateRank();
+            showMessage('⚡ Игра сброшена! Начинай новое приключение!', true);
+        }
+
+        // ----- ИНИЦИАЛИЗАЦИЯ -----
+        renderAchievements();
+        renderMap();
+        renderAllQuestions();
+        updateStats();
+        updateRank();
+
+        // обработчики
+        document.getElementById('modalCheck').addEventListener('click', checkCountryAnswer);
+        document.getElementById('closeModal').addEventListener('click', () => document.getElementById('modal').classList.remove('active'));
+        window.addEventListener('click', (e) => { if(e.target === document.getElementById('modal')) document.getElementById('modal').classList.remove('active'); });
+        document.getElementById('resetBtn').addEventListener('click', resetFullGame);
+        document.getElementById('modalAnswer').addEventListener('keypress', (e) => { if(e.key === 'Enter') checkCountryAnswer(); });
+    })();
+</script>
+</body>
+</html>
